@@ -4,7 +4,9 @@ set -euo pipefail
 if [[ ! "$PROJECT_SUFFIX" =~ ^[a-z0-9]{6,12}$ ]]; then echo 'Sufijo inválido'; exit 1; fi
 STATE_RG="rg-bnp-state-$PROJECT_SUFFIX"
 STATE_ACCOUNT="stbnp$PROJECT_SUFFIX"
-az group create --name "$STATE_RG" --location "$AZURE_LOCATION" --output none
+if ! az group show --name "$STATE_RG" --output none 2>/dev/null; then
+  az group create --name "$STATE_RG" --location "$AZURE_LOCATION" --output none
+fi
 if ! az storage account show --name "$STATE_ACCOUNT" --resource-group "$STATE_RG" --output none 2>/dev/null; then
   az storage account create --name "$STATE_ACCOUNT" --resource-group "$STATE_RG" --location "$AZURE_LOCATION" --sku Standard_LRS --min-tls-version TLS1_2 --allow-blob-public-access false --output none
 fi
