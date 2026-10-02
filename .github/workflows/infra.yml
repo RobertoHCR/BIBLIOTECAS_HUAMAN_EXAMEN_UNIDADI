@@ -12,9 +12,9 @@ env:
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   PROJECT_SUFFIX: ${{ vars.PROJECT_SUFFIX }}
-  AZURE_LOCATION: eastus
+  AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
   TF_VAR_project_suffix: ${{ vars.PROJECT_SUFFIX }}
-  TF_VAR_location: eastus
+  TF_VAR_location: ${{ vars.AZURE_LOCATION }}
   TF_VAR_sql_admin: bnpadmin
   TF_VAR_sql_password: ${{ secrets.SQL_PASSWORD }}
 jobs:
