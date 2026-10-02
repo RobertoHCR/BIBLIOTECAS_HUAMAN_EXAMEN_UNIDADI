@@ -1,0 +1,32 @@
+name: 3 - Publicar reporte en Power BI
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'powerbi/*.pbix'
+      - 'scripts/deploy_powerbi.py'
+      - '.github/workflows/deploy.yml'
+permissions:
+  contents: read
+concurrency:
+  group: bnp-powerbi
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      PBI_TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
+      PBI_CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
+      PBI_CLIENT_SECRET: ${{ secrets.PBI_CLIENT_SECRET }}
+      PBI_WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar cliente HTTP
+        run: pip install requests==2.32.3
+      - name: Importar PBIX y comprobar publicación
+        run: python scripts/deploy_powerbi.py

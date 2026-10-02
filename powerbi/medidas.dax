@@ -1,0 +1,8 @@
+-- Crea cada medida por separado, sobre la tabla renombrada a bibliotecas.
+Total registros = COUNTROWS(bibliotecas)
+
+Departamentos registrados = DISTINCTCOUNT(bibliotecas[departamento])
+
+Tipos registrados = DISTINCTCOUNT(bibliotecas[tipo_biblioteca])
+
+-- Es un conteo de filas del archivo, no de bibliotecas únicas a lo largo del tiempo.

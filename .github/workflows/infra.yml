@@ -1,0 +1,42 @@
+name: 1 - Infraestructura Azure SQL con Terraform
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: bnp-database
+  cancel-in-progress: false
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  PROJECT_SUFFIX: ${{ vars.PROJECT_SUFFIX }}
+  AZURE_LOCATION: eastus
+  TF_VAR_project_suffix: ${{ vars.PROJECT_SUFFIX }}
+  TF_VAR_location: eastus
+  TF_VAR_sql_admin: bnpadmin
+  TF_VAR_sql_password: ${{ secrets.SQL_PASSWORD }}
+jobs:
+  infra:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+      - name: Iniciar sesión en Azure
+        run: bash scripts/azure_login.sh
+      - name: Preparar estado persistente de Terraform
+        run: bash scripts/tf_backend.sh
+      - name: Revisar y crear infraestructura
+        run: |
+          terraform -chdir=infra fmt -check
+          terraform -chdir=infra validate
+          terraform -chdir=infra plan -input=false -out=bnp.tfplan
+          terraform -chdir=infra apply -input=false bnp.tfplan
+      - name: Mostrar servidor creado
+        run: |
+          SERVER=$(terraform -chdir=infra output -raw sql_server)
+          printf 'Servidor: `%s`\n\nBase que creará setup.yml: `bibliotecas`\n' "$SERVER" >> "$GITHUB_STEP_SUMMARY"

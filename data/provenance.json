@@ -1,0 +1,16 @@
+{
+  "source_file": "bibliotecas.xlsx",
+  "sha256": "7106db7bfe23f7c1e99e95d401611ee1394711aeb0510eb394ca775bff45ba91",
+  "sheet": "Exportar Hoja de Trabajo",
+  "header_row": 1,
+  "registros": 653,
+  "ubicaciones": 511,
+  "columns": {
+    "nombre_biblioteca": "NOMBREBIBLIOTECA",
+    "tipo_biblioteca": "TIPOBIBLIOTECA",
+    "departamento": "DEPARTAMENTO_BIBLIOTECA",
+    "provincia": "PROVINCIA_BIBLIOTECA",
+    "distrito": "DISTRITO_BIBLIOTECA",
+    "entidad_responsable": "RAZONSOCIALENTIDAD"
+  }
+}

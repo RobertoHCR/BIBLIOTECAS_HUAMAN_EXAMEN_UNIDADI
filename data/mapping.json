@@ -1,0 +1,12 @@
+{
+  "sheet": "Exportar Hoja de Trabajo",
+  "header_row": 1,
+  "columns": {
+    "nombre_biblioteca": "NOMBREBIBLIOTECA",
+    "tipo_biblioteca": "TIPOBIBLIOTECA",
+    "departamento": "DEPARTAMENTO_BIBLIOTECA",
+    "provincia": "PROVINCIA_BIBLIOTECA",
+    "distrito": "DISTRITO_BIBLIOTECA",
+    "entidad_responsable": "RAZONSOCIALENTIDAD"
+  }
+}
